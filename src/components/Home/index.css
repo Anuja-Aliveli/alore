@@ -64,12 +64,16 @@
   width: fit-content;
   margin-bottom: 10px;
 }
-.blue {
+.blue,
+.segment-tab:hover {
   color: blueviolet;
 }
 .tabs-container {
   display: flex;
   flex-direction: column;
+  height: auto;
+  max-height: 55vh;
+  overflow: auto;
 }
 .add-segment {
   color: white;
@@ -83,4 +87,59 @@
   padding-left: 10px;
   font-size: 15px;
   border-radius: 5px;
+}
+.popup-container {
+  box-shadow: 0 0 10px #bfbfbf;
+  width: 50vw;
+  height: 70vh;
+  padding: 15px;
+  padding-top: 10px;
+  background-color: white;
+}
+.add-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0;
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.section label {
+  font-size: 20px;
+  color: black;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.section input {
+  height: 30px;
+  width: 100%;
+  background-color: transparent;
+  padding-left: 10px;
+  font-size: 15px;
+  color: black;
+  outline: none;
+  border: 1px solid black;
+}
+.button-blue {
+  height: 35px;
+  width: 120px;
+  background-color: blueviolet;
+  color: white;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  margin-right: 20px;
+}
+.button-cancel {
+  height: 35px;
+  width: 120px;
+  background-color: transparent;
+  color: blueviolet;
+  border: 1.5px solid blueviolet;
+  cursor: pointer;
+  outline: none;
+  margin-right: 20px;
 }

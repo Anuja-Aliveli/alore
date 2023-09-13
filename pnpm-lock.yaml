@@ -8,9 +8,9 @@ specifiers:
   react: ^18.2.0
   react-dom: ^18.2.0
   react-icons: ^4.11.0
-  react-popup: ^0.11.0
   react-router-dom: ^6.15.0
   react-scripts: 5.0.1
+  reactjs-popup: ^2.0.6
   uuid: ^9.0.1
   web-vitals: ^2.1.4
 
@@ -22,9 +22,9 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.11.0_react@18.2.0
-  react-popup: 0.11.0_react-dom@18.2.0+react@18.2.0
   react-router-dom: 6.15.0_react-dom@18.2.0+react@18.2.0
   react-scripts: 5.0.1_react@18.2.0
+  reactjs-popup: 2.0.6_react-dom@18.2.0+react@18.2.0
   uuid: 9.0.1
   web-vitals: 2.1.4
 
@@ -6797,10 +6797,6 @@ packages:
       object.values: 1.1.7
     dev: false
 
-  /keymaster/1.6.2:
-    resolution: {integrity: sha512-OvA/AALN8IDKKkTk2Z+bDrzs/SQao4lo/QPbwSdDvm+frxfiYiYCSn1aHFUypJY3SruAO1y/c771agBmTXqUtg==}
-    dev: false
-
   /keyv/4.5.3:
     resolution: {integrity: sha512-QCiSav9WaX1PgETJ+SpNnx2PRRapJ/oRSXM4VO5OGYGSjrxbKPVFVhB3l2OCbLCk329N8qyAtsJjSjvVBWzEug==}
     dependencies:
@@ -8525,18 +8521,6 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
-  /react-popup/0.11.0_react-dom@18.2.0+react@18.2.0:
-    resolution: {integrity: sha512-7H5X/VJS2Ay+WBLl62O6hQImD+16lW4LGAGwRoaHqMWXkAfq9/oy3+7z1wkU7MV+9RNKCUVratzZSMZOm9hgcw==}
-    peerDependencies:
-      prop-types: ^15.6.0
-      react: ^17.0.2
-      react-dom: ^17.0.2
-    dependencies:
-      keymaster: 1.6.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
   /react-refresh/0.11.0:
     resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==}
     engines: {node: '>=0.10.0'}
@@ -8663,6 +8647,17 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
+    dev: false
+
+  /reactjs-popup/2.0.6_react-dom@18.2.0+react@18.2.0:
+    resolution: {integrity: sha512-A+tt+x9wdgZiZjv0e2WzYLD3IfFwJALaRaqwrCSXGjo0iQdsry/EtBEbQXRSmQs7cHmOi5eytCiSlOm8k4C+dg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /read-cache/1.0.0:

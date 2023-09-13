@@ -4,8 +4,10 @@ import {
   MdOutlineCelebration,
   MdOutlineCloudDownload,
   MdOutlineGridView,
+  MdClose,
 } from "react-icons/md";
 import { FaRegBell, FaChevronDown } from "react-icons/fa";
+import { Popup } from "reactjs-popup";
 import "./index.css";
 
 const colorPalette = [
@@ -70,8 +72,8 @@ const colorPalette = [
   "rgba(68, 68, 68, 1)",
 ];
 
-const segments = ["segment1", "segment2", "segment3"];
-const tables = [
+let segments = ["segment1", "segment2", "segment3"];
+let tables = [
   {
     segmentName: "segment1",
     color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
@@ -93,6 +95,50 @@ class Home extends Component {
   state = {
     currentSegment: segments[0],
   };
+
+  renderPopup = (btnName) => (
+    <>
+      <Popup
+        modal
+        trigger={
+          <button type="button" className="add-segment">
+            {btnName}
+          </button>
+        }
+      >
+        {(close) => (
+          <div className="popup-container">
+            <div className="add-head">
+              <p>Add a segment</p>
+              <MdClose
+                onClick={() => close()}
+                type="button"
+                size={25}
+                cursor="pointer"
+              />
+            </div>
+            <div className="section">
+              <label htmlFor="name">Name*</label>
+              <input type="text" placeholder="Ex: Computer Science" />
+            </div>
+            <div className="section">
+              <label htmlFor="name">Icon</label>
+              <input type="text" />
+            </div>
+            <div className="section">
+              <label htmlFor="name">Color</label>
+              <input type="text" />
+            </div>
+            <button type="button" className="button-blue">
+              Add
+            </button>
+            <button type="button" className="button-cancel">Reset</button>
+          </div>
+        )}
+      </Popup>
+    </>
+  );
+
   render() {
     const { currentSegment } = this.state;
     return (
@@ -120,9 +166,7 @@ class Home extends Component {
               ))}
             </div>
           </div>
-          <button className="add-segment" type="button">
-            + Add Segment
-          </button>
+          {this.renderPopup("+ Add Segment")}
         </div>
         <div className="right-container">
           <nav>
@@ -135,6 +179,7 @@ class Home extends Component {
             <MdOutlineCloudDownload className="nav-icon" />
             <p>Sign out</p>
           </nav>
+          {this.renderPopup("Hello")}
         </div>
       </div>
     );
