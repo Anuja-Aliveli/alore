@@ -8,6 +8,8 @@ import {
 } from "react-icons/md";
 import { FaRegBell, FaChevronDown } from "react-icons/fa";
 import { Popup } from "reactjs-popup";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 import "./index.css";
 
 const colorPalette = [
@@ -72,77 +74,256 @@ const colorPalette = [
   "rgba(68, 68, 68, 1)",
 ];
 
-let segments = ["segment1", "segment2", "segment3"];
-let tables = [
-  {
-    segmentName: "segment1",
-    color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
-    iconName: "smile",
-  },
-  {
-    segmentName: "segment2",
-    color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
-    iconName: "sweet_smile",
-  },
-  {
-    segmentName: "segment3",
-    color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
-    iconName: "sunglasses",
-  },
-];
+let segments = [];
+let tables = [];
 
 class Home extends Component {
   state = {
+    isBlur: false,
     currentSegment: segments[0],
+    searchInput: "",
+    searchResult: "",
+    emojiName: "",
+    emojiNative: "🙂",
+    isOpen: false,
+    isColor: false,
+    selectedColor: colorPalette[2],
+    segmentName: "",
+    tableName: "",
+    segmentsArray: segments,
+    tablesArray: tables,
   };
 
-  renderPopup = (btnName) => (
-    <>
-      <Popup
-        modal
-        trigger={
-          <button type="button" className="add-segment">
-            {btnName}
-          </button>
-        }
-      >
-        {(close) => (
-          <div className="popup-container">
-            <div className="add-head">
-              <p>Add a segment</p>
-              <MdClose
-                onClick={() => close()}
-                type="button"
-                size={25}
-                cursor="pointer"
-              />
+  onChangeInput = (event) => {
+    this.setState({ searchInput: event.target.value });
+  };
+
+  onEnter = (event) => {
+    const { searchInput, segmentsArray } = this.state;
+    const filtered = segmentsArray.filter(
+      (each) => each.segmentName === searchInput
+    );
+    if (event.key === "Enter") {
+      this.setState({ searchResult: filtered });
+    }
+  };
+
+  selectedEmoji = (emoji) => {
+    this.setState({
+      emojiName: emoji.name,
+      emojiNative: emoji.native,
+      isOpen: false,
+    });
+  };
+
+  onDown = () => {
+    this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
+  };
+
+  onColor = () => {
+    this.setState((prevState) => ({ isColor: !prevState.isColor }));
+  };
+
+  onSelectColor = (color) => {
+    this.setState({ isColor: false, selectedColor: color });
+  };
+
+  onSegmentName = (event) => {
+    this.setState({ segmentName: event.target.value });
+  };
+
+  onTableName = (event) => {
+    this.setState({ tableName: event.target.value });
+  };
+
+  onAddSegment = () => {
+    const { segmentName, emojiNative } = this.state;
+    const segmentItem = { emojiNative: emojiNative, segmentName: segmentName };
+    this.setState((prevState) => ({
+      segmentsArray: [...prevState.segmentsArray, segmentItem],
+    }));
+  };
+
+  onAddTable = (segName) => {
+    const { emojiNative, selectedColor, tableName } = this.state;
+    const tableItem = {
+      tableName: tableName,
+      segmentName: segName,
+      emojiNative: emojiNative,
+      selectedColor: selectedColor,
+    };
+    this.setState((prevState) => ({
+      tablesArray: [...prevState.tablesArray, tableItem],
+    }));
+  };
+
+  onBlur = () => {
+    this.setState((prevState) => ({ isBlur: !prevState.isBlur }));
+  };
+
+  renderPopup = (btnName, segName) => {
+    const { isOpen, isColor, emojiNative, selectedColor } = this.state;
+    const type = btnName === "+ Add Segment" ? "Segment" : "Table";
+    return (
+      <>
+        <Popup
+          modal
+          onOpen={this.onBlur}
+          onClose={this.onBlur}
+          trigger={
+            btnName === "+ Add Segment" ? (
+              <button type="button" className="add-segment">
+                {btnName}
+              </button>
+            ) : (
+              <div className="total-table" type="button">
+                <div
+                  className="table"
+                  style={{
+                    border: "1.5px solid gray",
+                  }}
+                >
+                  <p className="center">+</p>
+                </div>
+                <p>Add Table</p>
+              </div>
+            )
+          }
+        >
+          {(close) => (
+            <div className="popup-container">
+              <div>
+                <div className="add-head">
+                  <p>Add a {type}</p>
+                  <MdClose
+                    type="button"
+                    size={25}
+                    cursor="pointer"
+                    onClick={() => {
+                      close();
+                    }}
+                  />
+                </div>
+                <div className="section">
+                  <label htmlFor="name">Name*</label>
+                  <input
+                    type="text"
+                    placeholder="Ex: Computer Science"
+                    onChange={
+                      btnName === "+ Add Segment"
+                        ? this.onSegmentName
+                        : this.onTableName
+                    }
+                  />
+                </div>
+                <div className="section">
+                  <label htmlFor="name">Icon</label>
+                  <div
+                    className="icon-button"
+                    onClick={this.onDown}
+                    type="button"
+                  >
+                    <p>{emojiNative}</p>
+                    <FaChevronDown className="down" />
+                  </div>
+                  {isOpen && (
+                    <Picker
+                      perLine={15}
+                      data={data}
+                      onEmojiSelect={this.selectedEmoji}
+                    />
+                  )}
+                </div>
+                {btnName !== "+ Add Segment" && (
+                  <div className="section">
+                    <label htmlFor="name">Color</label>
+                    <div
+                      className="icon-button"
+                      type="button"
+                      onClick={this.onColor}
+                    >
+                      <p
+                        className="color-option"
+                        style={{
+                          backgroundColor: `${selectedColor}`,
+                          height: "20px",
+                          width: "20px",
+                        }}
+                      >
+                        {}
+                      </p>
+                      <FaChevronDown className="down" />
+                    </div>
+                    {isColor && (
+                      <div className="color-options">
+                        {colorPalette.map((color, index) => (
+                          <button
+                            className="color-option"
+                            type="button"
+                            key={index}
+                            style={{ backgroundColor: color }}
+                            onClick={() => this.onSelectColor(color)}
+                          >
+                            {}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {btnName === "+ Add Segment" && (
+                  <div className="section">
+                    <label htmlFor="name">Description</label>
+                    <textarea rows="10" cols="10" />
+                  </div>
+                )}
+              </div>
+              <div>
+                <button
+                  type="button"
+                  className="button-blue"
+                  onClick={() => {
+                    close();
+                    if (btnName === "+ Add Segment") {
+                      this.onAddSegment();
+                    } else {
+                      this.onAddTable(segName);
+                    }
+                  }}
+                >
+                  {btnName === "+ Add Segment" ? "Save" : "Add"}
+                </button>
+
+                <button className="button-cancel" onClick={() => close()}>
+                  Cancel
+                </button>
+              </div>
             </div>
-            <div className="section">
-              <label htmlFor="name">Name*</label>
-              <input type="text" placeholder="Ex: Computer Science" />
-            </div>
-            <div className="section">
-              <label htmlFor="name">Icon</label>
-              <input type="text" />
-            </div>
-            <div className="section">
-              <label htmlFor="name">Color</label>
-              <input type="text" />
-            </div>
-            <button type="button" className="button-blue">
-              Add
-            </button>
-            <button type="button" className="button-cancel">Reset</button>
-          </div>
-        )}
-      </Popup>
-    </>
-  );
+          )}
+        </Popup>
+      </>
+    );
+  };
+
+  changeSegment = (name) => {
+    this.setState({ currentSegment: name });
+  };
 
   render() {
-    const { currentSegment } = this.state;
+    const {
+      currentSegment,
+      segmentsArray,
+      tablesArray,
+      searchResult,
+      searchInput,
+      isBlur,
+    } = this.state;
+    const finalArray =
+      searchResult.length > 0 && searchInput === searchResult[0].segmentName
+        ? searchResult
+        : segmentsArray;
     return (
-      <div className="home-page">
+      <div className={isBlur ? "home-page blur" : "home-page"}>
         <div className="left-container">
           <div>
             <h1 className="main-head">Prospector</h1>
@@ -150,23 +331,28 @@ class Home extends Component {
               className="search-input"
               type="search"
               placeholder="Search for a table or segment"
+              onChange={this.onChangeInput}
+              onKeyDown={this.onEnter}
             />
             <p className="segments">Segments</p>
             <div className="tabs-container">
-              {segments.map((eachItem) => (
+              {finalArray.map((eachItem) => (
                 <button
+                  key={eachItem}
                   className={
-                    currentSegment === eachItem
+                    currentSegment === eachItem.segmentName
                       ? "segment-tab blue"
                       : "segment-tab"
                   }
+                  onClick={() => this.changeSegment(eachItem.segmentName)}
                 >
-                  {eachItem}
+                  <p>{eachItem.emojiNative}</p>
+                  <p>{eachItem.segmentName}</p>
                 </button>
               ))}
             </div>
           </div>
-          {this.renderPopup("+ Add Segment")}
+          {this.renderPopup("+ Add Segment", "")}
         </div>
         <div className="right-container">
           <nav>
@@ -179,7 +365,41 @@ class Home extends Component {
             <MdOutlineCloudDownload className="nav-icon" />
             <p>Sign out</p>
           </nav>
-          {this.renderPopup("Hello")}
+          {segmentsArray.map((eachSeg, index) => (
+            <div className="section-container" key={index}>
+              <div className="segment-head">
+                <p>{eachSeg.emojiNative}</p>
+                <p>{eachSeg.segmentName}</p>
+              </div>
+              <div className="tables-container">
+                {tablesArray.map((eachTable, index) => {
+                  if (eachSeg.segmentName === eachTable.segmentName) {
+                    return (
+                      <div className="total-table">
+                        <div
+                          className="table"
+                          style={{
+                            border: `1.5px solid ${eachTable.selectedColor}`,
+                          }}
+                        >
+                          <div
+                            style={{
+                              backgroundColor: `${eachTable.selectedColor}`,
+                            }}
+                            className="dot"
+                          ></div>
+                          <p className="emoji">{eachTable.emojiNative}</p>
+                        </div>
+                        <p>{eachTable.tableName}</p>
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+                {this.renderPopup("+", eachSeg.segmentName)}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );

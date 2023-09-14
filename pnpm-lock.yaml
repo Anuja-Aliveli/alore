@@ -1,6 +1,8 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@emoji-mart/data': ^1.1.2
+  '@emoji-mart/react': ^1.1.1
   '@testing-library/jest-dom': ^5.17.0
   '@testing-library/react': ^13.4.0
   '@testing-library/user-event': ^13.5.0
@@ -15,6 +17,8 @@ specifiers:
   web-vitals: ^2.1.4
 
 dependencies:
+  '@emoji-mart/data': 1.1.2
+  '@emoji-mart/react': 1.1.1_emoji-mart@5.5.2+react@18.2.0
   '@testing-library/jest-dom': 5.17.0
   '@testing-library/react': 13.4.0_react-dom@18.2.0+react@18.2.0
   '@testing-library/user-event': 13.5.0
@@ -1638,6 +1642,20 @@ packages:
       postcss-selector-parser: ^6.0.10
     dependencies:
       postcss-selector-parser: 6.0.13
+    dev: false
+
+  /@emoji-mart/data/1.1.2:
+    resolution: {integrity: sha512-1HP8BxD2azjqWJvxIaWAMyTySeZY0Osr83ukYjltPVkNXeJvTz7yDrPLBtnrD5uqJ3tg4CcLuuBW09wahqL/fg==}
+    dev: false
+
+  /@emoji-mart/react/1.1.1_emoji-mart@5.5.2+react@18.2.0:
+    resolution: {integrity: sha512-NMlFNeWgv1//uPsvLxvGQoIerPuVdXwK/EUek8OOkJ6wVOWPUizRBJU0hDqWZCOROVpfBgCemaC3m6jDOXi03g==}
+    peerDependencies:
+      emoji-mart: ^5.2
+      react: ^16.8 || ^17 || ^18
+    dependencies:
+      emoji-mart: 5.5.2
+      react: 18.2.0
     dev: false
 
   /@eslint-community/eslint-utils/4.4.0_eslint@8.49.0:
